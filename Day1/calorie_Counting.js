@@ -3,18 +3,13 @@ const {readFileSync} = require('fs');
 function ReadFile(filename) {
     const contents = readFileSync(filename, 'utf-8');
   
-    const arr = contents.replace(/\r\n/g, " ").split(" ")
-  
-    console.log(arr); 
-  
+    const arr = contents.replace(/\r\n/g, " ").split(" ")  
     return arr;
   }
 
   let inputClean= ReadFile('./input.txt');
-
   
 // fontion permettant de faire le groupage 
-
 const makeGroups = array => {
 	const groups = [];
 	let group = [];
@@ -31,19 +26,23 @@ const makeGroups = array => {
 };
 
 let getGroups= makeGroups(inputClean); 
-console.log(getGroups)
 
 
-// Fonction permettant de faire la sommation de groupe et de trouver le groupe ayant le total le  plus elevé des  calorie. 
-let largestTotalGroupCalories = 0;
+
+// Fonction permettant de faire la sommation des groupe 
+let totalPerGroups=[]
 	const handleGroup = groups => {
 		const totalCaloriesPerGroup = groups.reduce((prev, curr) => {
 			return (prev += parseInt(curr));
 		}, 0);
-		if (totalCaloriesPerGroup > largestTotalGroupCalories)
-        largestTotalGroupCalories = totalCaloriesPerGroup;
+		totalPerGroups.push(totalCaloriesPerGroup)
 	};
 
-    // Recherche du plus grand  groupe de calories. 
+// Sommation des calories par groupe 
+
 	for (let i = 0; i < getGroups.length; i++) handleGroup(getGroups[i], i);
-	console.log(largestTotalGroupCalories);
+	const largestTotal=Math.max(...totalPerGroups);  // le plus grand total 
+
+// Part 2
+	const sortLargestTotal= totalPerGroups.sort((a,b)=>b-a); 
+	const sumThreeLargestTotal=sortLargestTotal[0]+sortLargestTotal[1]+sortLargestTotal[2])
